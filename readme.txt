@@ -23,7 +23,7 @@ If you would like to show your support for this software, please consider donati
 1. Upload the zip to 'plugins' directory
 2. Unzip (steps 1 and 2 can also be performed automatically)
 3. Activate the plugin
-4. Plugin is visible in a dashboard.
+4. Plugin is visible in a dashboard
 
 Or just add .zip file as a new plugin in your Wordpress administration panel.
 
