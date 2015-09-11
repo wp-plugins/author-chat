@@ -1,6 +1,16 @@
 var linesnumber;
 var datecompare = [];
 var contentcompare = [];
+var isActive;
+var title = document.title;
+var count = 0;
+
+//playing sound
+jQuery.extend({
+	playSound: function(){
+		return jQuery("<embed src='"+arguments[0]+".3' hidden='true' autostart='true' loop='false' class='playSound'>" + "<audio autoplay='autoplay' style='display:none;' controls='controls'><source src='"+arguments[0]+".ogg' /></audio>").appendTo('body');
+    }
+});
 
 function Chat(){
     this.update = ppUpdateChat;
@@ -40,7 +50,17 @@ function getStateOfChat(){
 							}
 					}
 			   },
-			});
+	});
+	jQuery(window).blur(function(){
+		isActive = false;
+	});
+	jQuery(window).focus(function(){
+		isActive = true;
+	});
+	if(isActive == true){
+		document.title = title;
+		count = 0;
+	}
 }
 
 //send the message
@@ -73,7 +93,12 @@ function ppUpdateChat(){
 							if(jQuery.inArray(data.result2[i], contentcompare) > -1 && jQuery.inArray(data.result3[i], datecompare) > -1){
                             	continue;
                             }else{
-                            	jQuery('#chat-area').append(jQuery("<p>" + "<span id=\"date\">" + data.result3[i] + "</span>" + "<span id=\"nick\">" + data.result1[i] + "</span>" + data.result2[i] + "</p>"));
+								jQuery('#chat-area').append(jQuery("<p>" + "<span id=\"date\">" + data.result3[i] + "</span>" + "<span id=\"nick\">" + data.result1[i] + "</span>" + data.result2[i] + "</p>"));
+								if(isActive == false){
+									count++;
+									document.title = "(" + count + ")" + title;
+									jQuery.playSound('/../wp-content/plugins/author-chat/notifyauthorchat'); //url not working on localhost
+							   }
 							}
                         datecompare.push(data.result3[i]);
 						contentcompare.push(data.result2[i]);
